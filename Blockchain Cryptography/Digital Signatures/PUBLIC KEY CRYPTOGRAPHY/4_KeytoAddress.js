@@ -1,0 +1,29 @@
+// Goal: Get Ethereum Address
+// Let's get the ethereum address from the public key!
+// First step, you'll need to take the first byte off the public key. The first byte indicates the format of the key, whether it is in the compressed format or not. The publicKey will be a Uint8Array so you can use the slice method to slice off the first byte.
+// Next, take the keccak hash of the rest of the public key.
+// Finally, take the last 20 bytes of the keccak hash and return this. Once again, you can make use of the slice method.
+
+
+
+
+const secp = require("ethereum-cryptography/secp256k1");
+const { keccak256 } = require("ethereum-cryptography/keccak");
+
+function getAddress(publicKey) {
+    // 1. Remove the first byte (the format indicator)
+    // slice(1) starts from the second byte to the end
+    const restOfKey = publicKey.slice(1);
+
+    // 2. Take the Keccak-256 hash of the remaining bytes
+    const hash = keccak256(restOfKey);
+
+    // 3. Take the last 20 bytes of that hash
+    // Since Keccak-256 is 32 bytes, we slice from index 12 to 32
+    const address = hash.slice(-20);
+
+    // 4. Return the 20-byte Uint8Array
+    return address;
+}
+
+module.exports = getAddress;
