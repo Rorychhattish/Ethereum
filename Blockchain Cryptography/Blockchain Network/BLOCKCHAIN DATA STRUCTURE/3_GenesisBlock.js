@@ -12,3 +12,5 @@ class Blockchain {
         this.chain = [new Block("Genesis Block") ];
     }
 }
+
+module.exports = Blockchain;
